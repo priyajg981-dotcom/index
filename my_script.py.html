@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anniversary Surprise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .welcome-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .welcome-text {
+            font-size: 32px;
+            color: #ff1493;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            box-shadow: 0 10px 30px rgba(255,20,147,0.4);
+            transition: transform 0.3s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .countdown {
+            font-size: 80px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .greeting-card {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .greeting-title {
+            font-size: 36px;
+            color: #ff1493;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff1493;
+            font-size: 30px;
+            animation: float 4s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .shayari-box {
+            background: linear-gradient(135deg, #ffd1dc, #ffb6c1);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 20px auto;
+            max-width: 600px;
+            border: 3px solid #ff1493;
+        }
+
+        .shayari-text {
+            font-size: 24px;
+            color: #8b008b;
+            line-height: 1.8;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+
+        .love-letter {
+            background: #fffaf0;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 20px auto;
+            max-width: 600px;
+            border: 2px dashed #ff1493;
+            text-align: left;
+        }
+
+        .letter-title {
+            font-size: 32px;
+            color: #ff1493;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .letter-text {
+            font-size: 20px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-size: 24px;
+            color: #ff1493;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .music-player {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .lyrics-container {
+            background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .lyric-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .lyric-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffd1dc, #ffb6c1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+
+        .lyric-text {
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+            flex: 1;
+        }
+
+        .voice-note-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .voice-upload {
+            margin: 20px 0;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.3s;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+
+        .file-input-label:hover {
+            transform: scale(1.05);
+        }
+
+        .audio-player {
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 50px;
+        }
+
+        .photo-gallery {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .photo-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .photo-box {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #ffd1dc, #ffb6c1);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #ff1493;
+            margin-bottom: 10px;
+        }
+
+        .gift-message {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe6f0 50%, #fff9e6 100%);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(255,215,0,0.4);
+            max-width: 600px;
+            margin: 0 auto;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 4px solid #FFD700;
+            position: relative;
+        }
+        
+        .gift-message::before {
+            content: '⚡';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            animation: rotate 3s infinite;
+        }
+        
+        .gift-message::after {
+            content: '⚡';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            animation: rotate 3s infinite reverse;
+        }
+        
+        @keyframes rotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        .love-text {
+            font-size: 28px;
+            color: #ff1493;
+            line-height: 1.8;
+            font-weight: bold;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .qr-instruction {
+            font-size: 24px;
+            color: #ff1493;
+            margin-top: 20px;
+        }
+
+        .scroll-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff1493;
+            border-radius: 10px;
+        }
+
+        .music-note {
+            display: inline-block;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Quiz specific small styles */
+        #quiz-container .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 18px;
+            margin: 8px 0;
+            border-radius: 12px;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-size: 18px;
+            min-height: 22px;
+        }
+
+        @media (max-width: 480px) {
+            .countdown { font-size: 48px; }
+            .welcome-text { font-size: 24px; }
+            .letter-title { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <!-- Screen 1: QR Code -->
+        <div class="screen active" id="screen-qr">
+            <div class="qr-container">
+                <h2 class="qr-instruction">💕 Scan karein QR Code 💕</h2>
+                <div id="qrcode"></div>
+                <button class="btn" onclick="startSurprise()">Ya Yahan Click Karein</button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Welcome -->
+        <div class="screen" id="screen-welcome">
+            <div class="welcome-box">
+                <div class="welcome-text">
+                    Hlo so lets start the surprise
+                </div>
+                <button class="btn" onclick="startCountdown()">START</button>
+            </div>
+        </div>
+
+        <!-- Screen 3: Countdown -->
+        <div class="screen" id="screen-countdown">
+            <div class="countdown" id="countdown">5</div>
+        </div>
+
+        <!-- Screen 4: Greeting Card -->
+        <div class="screen" id="screen-greeting">
+            <div class="greeting-card">
+                <div class="greeting-title">
+                    💕 Happy 1st Love Anniversary<br>Mere Jaggu Ji 💕
+                </div>
+                <button class="btn" onclick="showShayari()">NEXT</button>
+            </div>
+        </div>
+
+        <!-- Screen 5: Shayari -->
+        <div class="screen" id="screen-shayari">
+            <div class="scroll-content">
+                <div class="shayari-box">
+                    <div class="shayari-text">
+                        🌹 Tumhari muskurahat mein hai meri zindagi,<br>
+                        Tumhare saath har pal hai jannat ki khushboo.<br>
+                        Tum ho toh sab kuch hai mere paas,<br>
+                        Tumhare bina adhoori hai meri har dua. 🌹
+                    </div>
+                </div>
+                <div class="shayari-box">
+                    <div class="shayari-text">
+                        💝 Ek saal ho gaya humein saath chale,<br>
+                        Par lagta hai jaise kal hi toh mile the.<br>
+                        Har din tumhare saath ek naya khwaab hai,<br>
+                        Mere Jaggu ji, tum ho toh sab kuch hai. 💝
+                    </div>
+                </div>
+                <div class="shayari-box">
+                    <div class="shayari-text">
+                        ✨ Subah tumhari "good morning" se hoti hai,<br>
+                        Raat tumhari baaton mein hi kho jaati hai.<br>
+                        Tumhare bina ek pal bhi guzarta nahi,<br>
+                        Meri duniya toh bus tumse hi sajti hai. ✨
+                    </div>
+                </div>
+                <div class="shayari-box">
+                    <div class="shayari-text">
+                        💫 Chaand bhi sharma jaaye tumhari hasi dekh kar,<br>
+                        Sitare bhi jhuk jaayein tumhari aankhon ke aage.<br>
+                        Tumhara pyaar hai meri pehchaan Jaggu ji,<br>
+                        Tum ho toh sab hai, tum nahi toh kuch nahi. 💫
+                    </div>
+                </div>
+                <button class="btn" onclick="showMemories()">Hamaari Yaadein 💭</button>
+            </div>
+        </div>
+
+        <!-- Screen 6: Memory Lane -->
+        <div class="screen" id="screen-memories">
+            <div class="scroll-content">
+                <div class="love-letter">
+                    <div class="letter-title">💭 Hamaari Pyaari Yaadein 💭</div>
+                    <!-- (content kept same) -->
+                    <div class="letter-text" style="font-size: 22px; color: #ff1493; font-weight: bold;">
+                        📅 28 November 2024 - Jab Sab Shuru Hua
+                    </div>
+                    <div class="letter-text">
+                        Mujhe aaj bhi woh din yaad hai mere Jaggu ji... 28 Nov 2024, jis din maine tujhe pehli baar text kiya tha. 
+                        Maine teri ID dhundhi thi, aur phir tujhe message kiya. Yaad hai? Maine apni dost ko teri insta ID di thi 
+                        aur usse message karwaya tha. Phir maine apni snap ID di aur anjaan banne ka natak kiya tha! 🤣
+                    </div>
+                    <div class="letter-text">
+                        Phir humne baat kari, tuition pe bhi baat kari... kitni pyaari yaadein hain woh! 💕
+                    </div>
+                    <div class="letter-text" style="font-size: 22px; color: #ff1493; font-weight: bold;">
+                        💪 Mushkilen Jo Humne Saath Jheli
+                    </div>
+                    <div class="letter-text">
+                        Is ek saal mein kitni mushkilein aayi... tere bhai ko pata chalna, tera gaon jaana, Suraj ka dangal, 
+                        aur baar baar tera kehna ki "tu mujhe chhod de, main tere se shaadi na kar paau"... sab kuch yaad hai mujhe meri jaan!
+                    </div>
+                    <div class="letter-text">
+                        Par hum saath rahe... aur yeh ek saal itna beautiful ban gaya! I really love you mere Jaggu ji, 
+                        meri jaan ji, mere sweetheart ji, mere jigar ka tukda, mera dil, meri saans, mera sab kuch! ❤️
+                    </div>
+                    <div class="letter-text" style="font-size: 22px; color: #ff1493; font-weight: bold;">
+                        📍 28 October 2024 - Pehli Mulaqat
+                    </div>
+                    <div class="letter-text">
+                        Yaad hai woh din? 28 Oct ko hum sabse pehle mile the! Main royi thi us din! 🤣🤣 
+                        Humne pic li thi, aur pehli baar tune mera hath pakda tha. Pehli baar main teri bike pe baithi thi!
+                    </div>
+                    <div class="letter-text">
+                        Maine khane mein rasmalai khayi thi... woh bhi maine chhod di thi! 😂 Aur yaad hai maine 
+                        kiss kari thi tere left gaal pe? Humne ek dusre ko apne haathon se khilaya tha pehli baar. 
+                        Tu company dress mein tha us din! 💕
+                    </div>
+                    <div class="letter-text" style="font-size: 22px; color: #ff1493; font-weight: bold;">
+                        📍 30 October - Dusri Mulaqat
+                    </div>
+                    <div class="letter-text">
+                        Phir 30 ko mile the... tu bus stand tha. Bestech jaane ka socha tha par woh band nikla. 
+                        Phir Genesis jaane ka plan tha par chain fail ho gayi thi, toh wahi chale gaye. 
+                        Us din tune... 😳🙈 (kuch cheezein sirf humare beech ki hain!) 💕
+                    </div>
+                    <div class="letter-text" style="font-size: 22px; color: #ff1493; font-weight: bold;">
+                        🎯 Tumhara Mujhpe Asar
+                    </div>
+                    <div class="letter-text">
+                        Thanks mere life mein aane ke liye! Tune mere kehne pe bahut kuch kiya hai... 
+                        dostons se door, duniya se door rehne laga, account private tak kar diya! 
+                        Main bahut khushkismat wali hoon jo mujhe tu mila! 🍀
+                    </div>
+                    <div class="letter-text">
+                        Haan tera gussa kharab hai, par ache insaan mein kuch toh burai hogi hi na! 
+                        Aur woh bas tera gussa hai. Baaki tu bahut pyaara hai, bahut pyaara! 💖
+                    </div>
+                    <div class="letter-text">
+                        Bahut yaad aa rahi hai teri par mil nahi sakte abhi... aur haan, ab hum dost hain mujhe yaad hai. 
+                        Par 1st anniversary toh celebrate karni banti hai na! 🎉
+                    </div>
+                    <div class="letter-signature">
+                        Tumhari Pikachu,<br>
+                        Jo tumhe bahut miss karti hai 💛⚡
+                    </div>
+                </div>
+                <button class="btn" onclick="showQuiz()">Love Quiz Khelein 💝</button>
+            </div>
+        </div>
+
+        <!-- Screen 7: Love Quiz (CLEAN & WORKING) -->
+        <div class="screen" id="screen-quiz">
+            <div class="scroll-content">
+                <div class="love-letter">
+                    <div class="letter-title">💝 Love Quiz - Kitna Jaante Ho Mujhe? 💝</div>
+
+                    <div id="quiz-container" style="margin-top: 20px;"></div>
+
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn" id="nextBtn">Next</button>
+                        <button class="btn" id="lifelineBtn" style="display:none;">💡 Lifeline</button>
+                    </div>
+
+                    <div class="feedback" id="quizFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 8: Love Letter -->
+        <div class="screen" id="screen-letter">
+            <div class="scroll-content">
+                <div class="love-letter">
+                    <div class="letter-title">💌 Mera Pyara Love Letter 💌</div>
+                    <div class="letter-text">Mere pyare Jaggu Ji,</div>
+                    <div class="letter-text">
+                        Aaj jab main yeh letter likh rahi hoon, dil mein bahut saari feelings aa rahi hain. 
+                        Ek saal pehle jab humari life mein pyaar aaya, tab se har din ek nayi khushi lekar aata hai.
+                    </div>
+                    <div class="letter-text">
+                        Tumhari har baat, tumhari har muskurahat, tumhara har saath... sab kuch itna special hai. 
+                        Tum mere liye sirf ek dost ya partner nahi ho, tum meri duniya ho, meri zindagi ho.
+                    </div>
+                    <div class="letter-text">
+                        Jab tumhara message aata hai toh dil mein ajeeb si khushi ho jaati hai. Tumhari voice sunke 
+                        lagta hai jaise poori duniya mil gayi ho. Tumhare saath bitaye har lamhe ko main apne dil mein 
+                        hamesha ke liye sambhal kar rakhungi.
+                    </div>
+                    <div class="letter-text">
+                        Is ek saal mein humne saath mein bahut saari yaadein banayi hain - hamare chhote chhote jhagde, 
+                        hamare lambe phone calls, hamare cute messages, aur wo sabse khaas pal jab tum mere paas hote ho.
+                    </div>
+                    <div class="letter-text">
+                        Tumhari woh silly si baatein, tumhara mujhe chidana, tumhara mujhe hansana... sab kuch yaad hai mujhe. 
+                        Tum jab "I love you" kehte ho na, toh lagta hai jaise puri kaynaat mujhe pyaar kar rahi ho.
+                    </div>
+                    <div class="letter-text">
+                        Raat ko sone se pehle tumhari baatein, subah uthte hi tumhari good morning, din bhar tumhare messages...
+                        yeh sab choti choti cheezein hi toh meri zindagi ki sabse badi khushiyan hain Jaggu ji.
+                    </div>
+                    <div class="letter-text">
+                        Main chahti hoon ki hum hamesha aise hi saath rahein, hamesha ek dusre ka saath dein, 
+                        aur saath mein bahut saari aur khushiyan celebrate karein. Tum mere saath ho toh main duniya se lad sakti hoon.
+                    </div>
+                    <div class="letter-text">
+                        Tumhare bina meri zindagi adhoori hai Jaggu ji. Tum ho toh main hoon. Tumhara pyaar hi meri taaqat hai, 
+                        tumhari muskurahat hi meri duniya hai. Promise karo ki hamesha aise hi mera saath doge. ❤️
+                    </div>
+                    <div class="letter-text">
+                        Happy 1st Anniversary mere Jaggu ji! Agli baar 50th anniversary celebrate karenge saath mein! 💕
+                    </div>
+                    <div class="letter-signature">
+                        Hamesha tumhari,<br>
+                        Tumhari pyaari si jaan 💕
+                    </div>
+                </div>
+                <button class="btn" onclick="showMusic()">Music Sunein 🎵</button>
+            </div>
+        </div>
+
+        <!-- Screen 9: Music with Lyrics -->
+        <div class="screen" id="screen-music">
+            <div class="scroll-content">
+                <div class="music-player">
+                    <h2 style="color: #ff1493; margin-bottom: 20px;">
+                        <span class="music-note">🎵</span> Romantic Vibes <span class="music-note">🎶</span>
+                    </h2>
+                    
+                    <div class="lyrics-container" id="lyricsContainer">
+                        <div class="lyric-box">
+                            <div class="lyric-image">💕</div>
+                            <div class="lyric-text">Tere saath har pal hai pyaara, tu hai mera dil ka sahara</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">🌹</div>
+                            <div class="lyric-text">Tere bina adhoori si hai zindagi, tu hai meri har khushi</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">💝</div>
+                            <div class="lyric-text">Saath chalein hum yunhi, har pal rahein saath yahaan</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">✨</div>
+                            <div class="lyric-text">Tere pyaar mein kho jaayein, duniya se door ho jaayein</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">🎀</div>
+                            <div class="lyric-text">Tu hai mera, main hoon tera, yeh pyaar hai poora</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">💖</div>
+                            <div class="lyric-text">Jaggu ji mere, tum ho humsafar, chalo chalein saath mein</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">🌟</div>
+                            <div class="lyric-text">Chandni raaton mein, taaron ki chhaon mein, bas tum ho saath</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">💗</div>
+                            <div class="lyric-text">Har subah tumse shuru ho, har shaam tumpe ho khatam</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">🦋</div>
+                            <div class="lyric-text">Tumhari baahon mein mil jaaye sukoon, tumhari muskaan mein mil jaaye jannat</div>
+                        </div>
+                        <div class="lyric-box">
+                            <div class="lyric-image">🌺</div>
+                            <div class="lyric-text">I love you mere Jaggu, tum ho meri duniya poori</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" onclick="showVoiceNote()">Voice Note Sunein 🎤</button>
+            </div>
+        </div>
+
+        <!-- Screen 10: Voice Note -->
+        <div class="screen" id="screen-voice">
+            <div class="voice-note-section">
+                <h2 style="color: #ff1493; margin-bottom: 20px;">🎤 Mera Voice Note 🎤</h2>
+                <div class="voice-upload">
+                    <div class="file-input-wrapper">
+                        <label for="audioUpload" class="file-input-label">
+                            📁 Apna Voice Note Upload Karein
+                        </label>
+                        <input type="file" id="audioUpload" accept="audio/*" onchange="loadAudio(event)">
+                    </div>
+                </div>
+                <div class="audio-player" id="audioPlayerContainer" style="display: none;">
+                    <audio id="audioPlayer" controls></audio>
+                </div>
+                <p style="color: #666; margin: 20px 0; font-size: 16px;">
+                    💡 Apni recording upload karein aur sunayein apne Jaggu ji ko!
+                </p>
+                <button class="btn" onclick="showPhotos()">Photos Dekhein 📸</button>
+            </div>
+        </div>
+
+        <!-- Screen 11: Photo Gallery -->
+        <div class="screen" id="screen-photos">
+            <div class="photo-gallery">
+                <div class="photo-container" id="photo1" style="display:none;">
+                    <div class="photo-box">📸 Pehli Mulaqat - Jab Dil Ne Kaha "Yeh Hai Woh" 💑</div>
+                </div>
+                <div class="photo-container" id="photo2" style="display:none;">
+                    <div class="photo-box">💝 Har Pal Tumhare Saath - Meri Favourite Memories 💝</div>
+                </div>
+                <div class="photo-container" id="photo3" style="display:none;">
+                    <div class="photo-box">🌹 Tumhari Muskaan - Meri Sabse Badi Khushi 🌹</div>
+                </div>
+                <div class="photo-container" id="photo4" style="display:none;">
+                    <div class="photo-box">💕 Hamesha Saath - Forever My Jaggu Ji 💕</div>
+                </div>
+                <div class="photo-container" id="photo5" style="display:none;">
+                    <div class="photo-box">✨ Tum Ho Toh Main Hoon - My Everything ✨</div>
+                </div>
+                <div class="photo-container" id="photo6" style="display:none;">
+                    <div class="photo-box">💖 Pyaar Bhari Yaadein - Jo Dil Mein Hamesha Rahegi 💖</div>
+                </div>
+                <div class="photo-container" id="photo7" style="display:none;">
+                    <div class="photo-box">🎀 Together Forever - Tumhare Saath Hi Jeena Hai 🎀</div>
+                </div>
+                <button class="btn" onclick="showGift()" style="margin-top: 20px;">OPEN GIFT 🎁</button>
+            </div>
+        </div>
+
+        <!-- Screen 12: Gift Message -->
+        <div class="screen" id="screen-gift">
+            <div class="gift-message">
+                <div style="font-size: 48px; margin-bottom: 20px;">⚡💛 Pikachu ⚡💛</div>
+                <div style="font-size: 36px; color: #FFD700; margin-bottom: 30px; animation: pulse 2s infinite;">
+                    TO
+                </div>
+                <div style="font-size: 48px; margin-bottom: 40px;">💕 His Jaggu 💕</div>
+                <div class="love-text" id="loveMessage"></div>
+                <div style="margin-top: 40px; font-size: 32px; color: #FFD700; animation: pulse 2s infinite;">
+                    ⚡ Pika Pika! I Love You! ⚡
+                </div>
+                <div style="margin-top: 30px; font-size: 24px; color: #ff69b4;">
+                    From: Your Pikachu 💛<br>
+                    To: My Jaggu Ji 💕
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Generate QR Code
+        const currentUrl = window.location.href;
+        new QRCode(document.getElementById("qrcode"), {
+            text: currentUrl,
+            width: 200,
+            height: 200,
+            colorDark: "#ff1493",
+            colorLight: "#ffffff"
+        });
+
+        // Floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 7000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Romantic music (simple melody loop)
+        function playMusic() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [262, 294, 330, 349, 392, 440, 494, 523];
+                const melody = [0, 2, 4, 5, 4, 2, 0, 0, 2, 4, 5, 7, 5, 4, 2];
+                
+                let time = audioContext.currentTime;
+                melody.forEach((noteIndex, i) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = notes[noteIndex];
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0.2, time);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.6);
+                    
+                    oscillator.start(time);
+                    oscillator.stop(time + 0.6);
+                    
+                    time += 0.5;
+                });
+                
+                setTimeout(playMusic, melody.length * 500 + 2000);
+            } catch (e) {
+                // Some browsers block AudioContext until user gesture; silence errors
+                console.warn("Audio not started:", e);
+            }
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const el = document.getElementById(screenId);
+            if (el) el.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startSurprise() {
+            showScreen('screen-welcome');
+        }
+
+        function startCountdown() {
+            showScreen('screen-countdown');
+            let count = 5;
+            const countdownEl = document.getElementById('countdown');
+            
+            const interval = setInterval(() => {
+                count--;
+                countdownEl.textContent = count;
+                
+                if (count === 0) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        showScreen('screen-greeting');
+                        playMusic();
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        function showShayari() {
+            showScreen('screen-shayari');
+        }
+
+        function showMemories() {
+            showScreen('screen-memories');
+        }
+
+        function showQuiz() {
+            showScreen('screen-quiz');
+        }
+
+        function showLetter() {
+            showScreen('screen-letter');
+        }
+
+        function showMusic() {
+            showScreen('screen-music');
+        }
+
+        function showVoiceNote() {
+            showScreen('screen-voice');
+        }
+
+        function loadAudio(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const audioPlayer = document.getElementById('audioPlayer');
+                const audioPlayerContainer = document.getElementById('audioPlayerContainer');
+                
+                audioPlayer.src = URL.createObjectURL(file);
+                audioPlayerContainer.style.display = 'block';
+            }
+        }
+
+        function showPhotos() {
+            showScreen('screen-photos');
+            
+            setTimeout(() => document.getElementById('photo1').style.display = 'block', 500);
+            setTimeout(() => document.getElementById('photo2').style.display = 'block', 1200);
+            setTimeout(() => document.getElementById('photo3').style.display = 'block', 1900);
+            setTimeout(() => document.getElementById('photo4').style.display = 'block', 2600);
+            setTimeout(() => document.getElementById('photo5').style.display = 'block', 3300);
+            setTimeout(() => document.getElementById('photo6').style.display = 'block', 4000);
+            setTimeout(() => document.getElementById('photo7').style.display = 'block', 4700);
+        }
+
+        function showGift() {
+            showScreen('screen-gift');
+            
+            const message = "I love you mere jaggu\n".repeat(100);
+            const messageEl = document.getElementById('loveMessage');
+            messageEl.innerHTML = "";
+            
+            let index = 0;
+            const lines = message.split('\n').filter(line => line.trim());
+            
+            function typeNextLine() {
+                if (index < lines.length) {
+                    const line = document.createElement('div');
+                    line.textContent = lines[index];
+                    line.style.animation = 'fadeIn 0.3s ease-in';
+                    messageEl.appendChild(line);
+                    index++;
+                    setTimeout(typeNextLine, 100);
+                }
+            }
+            
+            typeNextLine();
+        }
+
+        // -----------------------
+        // QUIZ: CLEAN IMPLEMENTATION
+        // -----------------------
+        const quizQuestions = [
+            {
+                question: "Mera favourite color kya hai?",
+                options: ["White", "Red", "Pink", "Blue"],
+                answer: "White"
+            },
+            {
+                question: "Hum phli aur dusri bar kahan mile the?",
+                options: ["Bikaner Bus Stand ke paas", "School", "Cinema Hall", "Market"],
+                answer: "Bikaner Bus Stand ke paas"
+            },
+            {
+                question: "Phli aur dusri bar maine kya pehna tha? (Donon sahi ho sakte hain)",
+                options: ["Grey Kurti & Black Trouser", "Blue Kurti & Blue Jeans", "Red Dress", "White Top & Jeans"],
+                answer: ["Grey Kurti & Black Trouser", "Blue Kurti & Blue Jeans"]
+            },
+            {
+                question: "Mujhe tumhe kya bulana sabse zyada pasand hai?",
+                options: ["Madam Ji", "Baby", "Sweetheart", "Jaggu"],
+                answer: "Madam Ji"
+            },
+            {
+                question: "Mujhe tumse kya kehna pasand hai?",
+                options: ["I Love You", "Tum Hi Ho", "Forever", "Pika Pika"],
+                answer: "I Love You",
+                lifeline: true
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        const quizContainer = document.getElementById("quiz-container");
+        const nextBtn = document.getElementById("nextBtn");
+        const lifelineBtn = document.getElementById("lifelineBtn");
+        const quizFeedback = document.getElementById("quizFeedback");
+
+        function loadQuestion() {
+            quizContainer.innerHTML = "";
+            quizFeedback.textContent = "";
+            const q = quizQuestions[currentQuestion];
+            
+            const questionEl = document.createElement("div");
+            questionEl.className = "shayari-box";
+            questionEl.style.textAlign = "left";
+            questionEl.innerHTML = `<strong style="color: #ff1493;">❓ ${q.question}</strong>`;
+            quizContainer.appendChild(questionEl);
+
+            const optionsWrapper = document.createElement("div");
+            optionsWrapper.style.marginTop = "12px";
+            quizContainer.appendChild(optionsWrapper);
+
+            q.options.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.className = "btn option-btn";
+                btn.textContent = opt;
+                btn.onclick = () => handleOptionClick(opt, btn);
+                optionsWrapper.appendChild(btn);
+            });
+
+            // lifeline visibility
+            if (q.lifeline) {
+                lifelineBtn.style.display = "inline-block";
+            } else {
+                lifelineBtn.style.display = "none";
+            }
+
+            // update Next button text
+            nextBtn.textContent = (currentQuestion === quizQuestions.length - 1) ? "Finish" : "Next";
+        }
+
+        function handleOptionClick(selected, btnEl) {
+            const q = quizQuestions[currentQuestion];
+            let correct = false;
+            if (Array.isArray(q.answer)) {
+                correct = q.answer.includes(selected);
+            } else {
+                correct = (selected === q.answer);
+            }
+
+            // disable all options to avoid repeat clicks
+            Array.from(document.querySelectorAll("#quiz-container .option-btn")).forEach(b => b.disabled = true);
+
+            if (correct) {
+                score++;
+                btnEl.style.boxShadow = "0 8px 20px rgba(34,197,94,0.3)";
+                quizFeedback.textContent = "🎉 Correct Answer! 🎉";
+            } else {
+                btnEl.style.boxShadow = "0 8px 20px rgba(255,0,0,0.2)";
+                quizFeedback.textContent = "❌ Wrong Answer. Don't worry, Next try!";
+            }
+        }
+
+        nextBtn.onclick = () => {
+            // If user hasn't clicked any option, allow them to proceed (no penal)
+            // move to next or finish
+            currentQuestion++;
+            if (currentQuestion < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                // Quiz complete
+                showQuizResults();
+            }
+        };
+
+        lifelineBtn.onclick = () => {
+            const q = quizQuestions[currentQuestion];
+            if (!q) return;
+            // Show hint/answer
+            const ans = Array.isArray(q.answer) ? q.answer.join("  /  ") : q.answer;
+            alert("💡 Lifeline: " + ans);
+        }
+
+        function showQuizResults() {
+            quizContainer.innerHTML = "";
+            lifelineBtn.style.display = "none";
+            nextBtn.textContent = "Play Again";
+            quizFeedback.textContent = `🎉 Quiz Complete! Score: ${score} / ${quizQuestions.length} 🎉`;
+            const resultBox = document.createElement("div");
+            resultBox.className = "shayari-box";
+            resultBox.innerHTML = `<div style="font-size:20px; color:#8b008b; text-align:left;">
+                Aapka score: <strong style="color:#ff1493">${score} / ${quizQuestions.length}</strong><br><br>
+                ❤️ Agar aap chaho toh Love Letter padh sakte ho.
+            </div>`;
+            quizContainer.appendChild(resultBox);
+
+            nextBtn.onclick = () => {
+                // Reset quiz and go to letter
+                currentQuestion = 0;
+                score = 0;
+                showLetter();
+                // restore nextBtn behavior for future visits
+                nextBtn.onclick = () => {
+                    currentQuestion++;
+                    if (currentQuestion < quizQuestions.length) {
+                        loadQuestion();
+                    } else {
+                        showQuizResults();
+                    }
+                };
+            };
+        }
+
+        // Load first question when quiz screen is opened
+        // but ensure loading only when user navigates to quiz screen
+        // So attach an observer to showQuiz to call loadQuestion when shown
+        // Simpler: call loadQuestion now so it's ready when screen is shown
+        loadQuestion();
+    </script>
+</body>
+</html>
